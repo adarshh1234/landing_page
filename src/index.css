@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: #ffffff;
+    --color-text-primary: #061f3d;
+    --color-text-secondary: #64748b;
+    --color-border: #e2edf8;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #ffffff;
+    color: #061f3d;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+    letter-spacing: -0.03em;
+    color: #061f3d;
+  }
+}
+
+/* Signature LetGetIn Blue Card Gradient: Deep Navy (Left) -> Medium Blue (Center) -> Bright Blue (Right) */
+.card-gradient-blue {
+  background: linear-gradient(90deg, #062b63 0%, #07498c 50%, #087bc1 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Button with right side slightly lighter blue gradient from screenshot */
+.btn-gradient-blue {
+  background: linear-gradient(90deg, #062b63 0%, #07498c 50%, #087bc1 100%);
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-gradient-blue:hover {
+  background: linear-gradient(90deg, #073578 0%, #085aa8 50%, #008be2 100%);
+  box-shadow: 0 10px 25px -5px rgba(8, 123, 193, 0.35);
+}
+
+/* Blue text with right side slightly lighter / gradient effect matching screenshots */
+.text-gradient-blue {
+  background: linear-gradient(90deg, #063a78 0%, #075fad 50%, #087bc1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  display: inline;
+}
+
+/* Card bottom banner gradient */
+.card-banner-gradient {
+  background: linear-gradient(90deg, #062b63 0%, #07498c 50%, #087bc1 100%);
+}
+
+/* Soft ambient cyan/sky radial glow from screenshots */
+.screenshot-ambient-glow {
+  background: radial-gradient(circle at 85% 30%, rgba(224, 242, 254, 0.6) 0%, rgba(240, 248, 255, 0.3) 45%, transparent 75%);
+}
+
+.subtle-section-bg {
+  background-color: #f8fbfe;
+}
