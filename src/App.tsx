@@ -120,7 +120,10 @@ export const App: React.FC = () => {
       </main>
 
       {/* 11. Footer */}
-      <Footer />
+      <Footer 
+        onOpenSignIn={handleOpenSignIn}
+        onOpenSignUp={handleOpenDemo}
+      />
 
       {/* Interactive Modal Dialog */}
       <DemoModal 
