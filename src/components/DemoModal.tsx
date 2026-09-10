@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { X, CheckCircle2, Sparkles, ArrowRight, ShieldCheck, Play } from 'lucide-react';
+import { X, CheckCircle2, Sparkles, ArrowRight, ShieldCheck, Play, Loader2 } from 'lucide-react';
+import { leadService } from '../services/lead.service';
 
 interface DemoModalProps {
   isOpen: boolean;
@@ -10,13 +11,34 @@ interface DemoModalProps {
 export const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose, mode }) => {
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('Software Engineering');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (!email.trim()) return;
+
+    setIsSubmitting(true);
+    try {
+      await leadService.submitDemoRequest({
+        email: email.trim(),
+        role: mode !== 'signin' ? role : undefined,
+        mode
+      });
+      setSubmitted(true);
+    } catch (err) {
+      console.error('Failed to submit demo request', err);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleModalClose = () => {
+    setSubmitted(false);
+    setEmail('');
+    onClose();
   };
 
   return (
@@ -27,8 +49,9 @@ export const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose, mode }) =
       >
         {/* Close Button */}
         <button
-          onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-navy-900 hover:bg-sky-50 transition-colors z-10"
+          type="button"
+          onClick={handleModalClose}
+          className="absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-navy-900 hover:bg-sky-50 transition-colors z-10 cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
@@ -59,8 +82,9 @@ export const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose, mode }) =
             <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
               <span>Zero software installation required</span>
               <button
-                onClick={onClose}
-                className="font-bold text-brand-700 hover:text-brand-800"
+                type="button"
+                onClick={handleModalClose}
+                className="font-bold text-brand-700 hover:text-brand-800 cursor-pointer"
               >
                 Close Preview
               </button>
@@ -79,8 +103,9 @@ export const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose, mode }) =
               We've dispatched your invitation and sandbox credentials to <strong className="text-navy-900">{email || 'your email'}</strong>. Your AI skill verification session is ready to initialize.
             </p>
             <button
-              onClick={onClose}
-              className="w-full py-3.5 rounded-xl bg-brand-700 text-white text-sm font-bold hover:bg-brand-600 transition-colors shadow-sm"
+              type="button"
+              onClick={handleModalClose}
+              className="w-full py-3.5 rounded-xl bg-brand-700 text-white text-sm font-bold hover:bg-brand-600 transition-colors shadow-sm cursor-pointer"
             >
               Back to Homepage
             </button>
@@ -147,12 +172,22 @@ export const DemoModal: React.FC<DemoModalProps> = ({ isOpen, onClose, mode }) =
 
               <button
                 type="submit"
-                className="w-full py-3.5 px-4 rounded-xl text-sm font-bold tracking-tight text-white btn-gradient-blue transition-all flex items-center justify-center gap-2 group mt-2 shadow-sm hover:shadow-blue-glow"
+                disabled={isSubmitting}
+                className="w-full py-3.5 px-4 rounded-xl text-sm font-bold tracking-tight text-white btn-gradient-blue transition-all flex items-center justify-center gap-2 group mt-2 shadow-sm hover:shadow-blue-glow cursor-pointer disabled:opacity-60"
               >
-                <span>
-                  {mode === 'enterprise' ? 'Request Enterprise Walkthrough' : mode === 'signin' ? 'Sign In Securely' : 'Begin Skill Verification'}
-                </span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Processing...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>
+                      {mode === 'enterprise' ? 'Request Enterprise Walkthrough' : mode === 'signin' ? 'Sign In Securely' : 'Begin Skill Verification'}
+                    </span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
               </button>
             </form>
 

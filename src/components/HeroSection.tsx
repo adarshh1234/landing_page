@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Play, Sparkles, Building2 } from 'lucide-react';
+import { HERO_PROFILES } from '../constants/landing.constants';
+import { Button } from './ui/Button';
+import { Badge } from './ui/Badge';
 
 interface HeroSectionProps {
   onOpenDemo: () => void;
@@ -8,41 +11,7 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenDemo, onOpenVideoDemo }) => {
   const [activeProfileIndex, setActiveProfileIndex] = useState(0);
-
-  const profiles = [
-    {
-      initials: 'AK',
-      name: 'Aisha Kapoor',
-      role: 'Product Designer · Verified',
-      fitScore: '98% Fit',
-      interviewStatus: 'AI Interview Passed',
-      interviewDuration: '5 min · Adaptive',
-      portfolioStatus: 'Portfolio · 12 projects',
-      portfolioRating: '97% peer rated',
-      ranking: 'Top 5% · Design Community',
-      tier: '🏆 Gold',
-      activeBids: '3 companies viewing your profile',
-      offerCompany: 'Stripe · hiring',
-      offerDetails: 'Offered $185k · 2d ago',
-    },
-    {
-      initials: 'MC',
-      name: 'Marcus Chen',
-      role: 'Staff ML Engineer · Verified',
-      fitScore: '99% Fit',
-      interviewStatus: 'APEX-SWE Bench Passed',
-      interviewDuration: '12 min · Sandbox',
-      portfolioStatus: 'Verified Repos · 8 audits',
-      portfolioRating: '99.4% benchmark',
-      ranking: 'Top 1% · Systems Guild',
-      tier: '💎 Diamond',
-      activeBids: '5 companies competing',
-      offerCompany: 'Anthropic Partner · hiring',
-      offerDetails: 'Offered $310k · 4h ago',
-    }
-  ];
-
-  const activeProfile = profiles[activeProfileIndex];
+  const activeProfile = HERO_PROFILES[activeProfileIndex] || HERO_PROFILES[0];
 
   return (
     <section className="relative pt-24 pb-20 md:pt-32 md:pb-28 overflow-hidden screenshot-ambient-glow">
@@ -52,20 +21,23 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenDemo, onOpenVide
           {/* Left Column: Hero Content Matching Screenshot Exactly */}
           <div className="lg:col-span-7 flex flex-col justify-center">
             
-            {/* Tag Badge matching screenshot */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pill-bg border border-pill-border text-pill-text text-xs font-semibold tracking-wide mb-8 w-fit shadow-2xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-brand-500 animate-pulse" />
-              <Sparkles className="w-3.5 h-3.5 text-brand-500" />
-              <span>The future of professional identity</span>
+            {/* Tag Badge */}
+            <div className="mb-8 w-fit">
+              <Badge
+                variant="pill"
+                icon={<Sparkles className="w-3.5 h-3.5 text-brand-500" />}
+              >
+                <span>The future of professional identity</span>
+              </Badge>
             </div>
 
-            {/* Main Headline matching screenshot */}
+            {/* Main Headline */}
             <h1 className="font-display text-4xl sm:text-6xl md:text-[68px] font-extrabold text-[#06284f] tracking-[-0.04em] leading-[1.08] mb-6">
               Stop Claiming.<br />
               Start <span className="text-gradient-blue">Proving.</span>
             </h1>
 
-            {/* Subtitle matching screenshot */}
+            {/* Subtitle */}
             <p className="text-lg sm:text-xl text-slate-600 leading-relaxed max-w-xl mb-9 font-normal">
               The professional network where verified skills, not CVs, get you hired.{' '}
               <strong className="text-[#0a192f] font-bold">
@@ -73,27 +45,31 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenDemo, onOpenVide
               </strong>
             </p>
 
-            {/* Action Buttons matching screenshot */}
+            {/* Action Buttons */}
             <div className="flex flex-wrap items-center gap-4 mb-12">
-              <button
+              <Button
                 onClick={onOpenDemo}
-                className="inline-flex items-center justify-center px-8 py-3.5 rounded-full text-base font-bold text-white btn-gradient-blue shadow-sm hover:shadow-blue-glow transition-all duration-200 active:scale-[0.98]"
+                variant="gradient"
+                size="lg"
               >
                 <span>Get In — It's Free</span>
-              </button>
+              </Button>
 
-              <button
+              <Button
                 onClick={onOpenVideoDemo}
-                className="inline-flex items-center justify-center px-6 py-3.5 rounded-full text-base font-semibold text-[#0a192f] bg-white hover:bg-sky-50 border border-sky-200 shadow-2xs transition-all duration-150 group"
+                variant="outline"
+                size="lg"
+                icon={
+                  <div className="w-5 h-5 rounded-full border border-[#0a192f] flex items-center justify-center mr-0.5">
+                    <Play className="w-2.5 h-2.5 fill-[#0a192f] text-[#0a192f] ml-0.5" />
+                  </div>
+                }
               >
-                <div className="w-5 h-5 rounded-full border border-[#0a192f] flex items-center justify-center mr-2.5">
-                  <Play className="w-2.5 h-2.5 fill-[#0a192f] text-[#0a192f] ml-0.5" />
-                </div>
                 <span>Watch Demo</span>
-              </button>
+              </Button>
             </div>
 
-            {/* Bottom Proof Badges with cyan circle outline from screenshot */}
+            {/* Bottom Proof Badges with cyan circle outline */}
             <div className="flex flex-wrap items-center gap-y-3 gap-x-8 text-xs sm:text-sm font-medium text-slate-600">
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 rounded-full border-[1.5px] border-[#0284c7] flex items-center justify-center text-[#0284c7]">
@@ -116,7 +92,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenDemo, onOpenVide
             </div>
           </div>
 
-          {/* Right Column: Aisha Kapoor Card matching screenshot */}
+          {/* Right Column: Aisha Kapoor / Marcus Chen Card */}
           <div className="lg:col-span-5 flex flex-col items-center lg:items-end relative pt-4">
             
             {/* Ambient Cyan Glow behind the card */}
@@ -141,9 +117,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenDemo, onOpenVide
                   </div>
                 </div>
 
-                <div className="px-2.5 py-1 rounded-full text-xs font-bold bg-fit-bg text-fit-text border border-fit-border shadow-2xs">
-                  ★ {activeProfile.fitScore}
-                </div>
+                <Badge variant="fit">
+                  <span>★ {activeProfile.fitScore}</span>
+                </Badge>
               </div>
 
               {/* Verified Checklist Rows */}
@@ -201,8 +177,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenDemo, onOpenVide
             {/* Profile Switcher Controls */}
             <div className="mt-10 flex items-center gap-2 z-10">
               <button
+                type="button"
                 onClick={() => setActiveProfileIndex(0)}
-                className={`px-3 py-1 text-xs font-semibold rounded-full transition-all ${
+                className={`px-3 py-1 text-xs font-semibold rounded-full transition-all cursor-pointer ${
                   activeProfileIndex === 0
                     ? 'btn-gradient-blue text-white shadow-xs'
                     : 'bg-white border border-sky-200 text-slate-600 hover:bg-sky-50'
@@ -211,8 +188,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenDemo, onOpenVide
                 Aisha (Designer)
               </button>
               <button
+                type="button"
                 onClick={() => setActiveProfileIndex(1)}
-                className={`px-3 py-1 text-xs font-semibold rounded-full transition-all ${
+                className={`px-3 py-1 text-xs font-semibold rounded-full transition-all cursor-pointer ${
                   activeProfileIndex === 1
                     ? 'btn-gradient-blue text-white shadow-xs'
                     : 'bg-white border border-sky-200 text-slate-600 hover:bg-sky-50'

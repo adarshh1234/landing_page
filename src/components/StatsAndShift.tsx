@@ -1,26 +1,13 @@
 import React, { useState } from 'react';
 import { X, Sparkles } from 'lucide-react';
+import { PLATFORM_STATS, LIVE_OPPORTUNITIES } from '../constants/landing.constants';
 
 export const StatsAndShift: React.FC = () => {
   const [activeRoleFilter, setActiveRoleFilter] = useState('All');
 
-  const stats = [
-    { value: '120K+', label: 'Verified Professionals', sub: 'Across 150+ countries' },
-    { value: '8.2K', label: 'Companies Hiring', sub: 'From fast-growth startups to enterprise' },
-    { value: '96%', label: 'Match Accuracy', sub: 'Evaluated on real proof of work' },
-    { value: '150+', label: 'Countries', sub: 'Global merit-based network' },
-  ];
-
-  const liveRoles = [
-    { title: 'Frontier AI Evaluation Specialist', rate: '$90 - $130/hr', status: '842 recently matched', field: 'AI Research' },
-    { title: 'Senior Distributed Systems Architect', rate: '$180k - $240k', status: '154 recently hired', field: 'Engineering' },
-    { title: 'Quantitative Risk & KYC Modeling Lead', rate: '$110/hr', status: '312 recently hired', field: 'Fintech' },
-    { title: 'Product & Design Systems Engineer', rate: '$150k - $195k', status: '489 recently hired', field: 'Design' },
-  ];
-
   const filteredRoles = activeRoleFilter === 'All' 
-    ? liveRoles 
-    : liveRoles.filter(r => r.field === activeRoleFilter || activeRoleFilter === 'All');
+    ? LIVE_OPPORTUNITIES 
+    : LIVE_OPPORTUNITIES.filter(r => r.field === activeRoleFilter || activeRoleFilter === 'All');
 
   return (
     <section id="shift" className="py-20 md:py-28 bg-white border-b border-sky-100">
@@ -28,8 +15,8 @@ export const StatsAndShift: React.FC = () => {
         
         {/* Top Numbers Row - Royal Blue Numbers matching screenshot */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pb-16 border-b border-sky-100">
-          {stats.map((stat, i) => (
-            <div key={i} className="flex flex-col">
+          {PLATFORM_STATS.map((stat) => (
+            <div key={stat.id} className="flex flex-col">
               <span className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tighter text-gradient-blue font-display">
                 {stat.value}
               </span>
@@ -173,8 +160,9 @@ export const StatsAndShift: React.FC = () => {
               {['All', 'Engineering', 'AI Research', 'Design', 'Fintech'].map((f) => (
                 <button
                   key={f}
+                  type="button"
                   onClick={() => setActiveRoleFilter(f)}
-                  className={`px-4 py-1 text-xs font-bold rounded-full transition-colors whitespace-nowrap ${
+                  className={`px-4 py-1 text-xs font-bold rounded-full transition-colors whitespace-nowrap cursor-pointer ${
                     activeRoleFilter === f
                       ? 'bg-[#063970] text-white shadow-xs'
                       : 'bg-white border border-sky-200 text-slate-600 hover:bg-sky-50'
@@ -187,8 +175,11 @@ export const StatsAndShift: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-6">
-            {filteredRoles.map((role, idx) => (
-              <div key={idx} className="bg-white p-4 rounded-2xl border border-sky-100 hover:border-brand-400 transition-all hover:shadow-xs flex flex-col justify-between">
+            {filteredRoles.map((role) => (
+              <div 
+                key={role.id} 
+                className="bg-white p-4 rounded-2xl border border-sky-100 hover:border-brand-400 transition-all hover:shadow-xs flex flex-col justify-between"
+              >
                 <div>
                   <span className="text-[11px] font-bold text-pill-text bg-pill-bg px-2 py-0.5 rounded-md border border-pill-border inline-block mb-2">
                     {role.field}

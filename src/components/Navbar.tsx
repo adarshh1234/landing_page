@@ -1,31 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Menu, X, Sparkles } from 'lucide-react';
+import { useScrolled } from '../hooks/useScrolled';
+import { LANDING_NAV_LINKS } from '../constants/landing.constants';
+import { Button } from './ui/Button';
 
 interface NavbarProps {
   onOpenDemo: () => void;
   onOpenSignIn: () => void;
+  onNavigate?: (path: string) => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenDemo, onOpenSignIn }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
+export const Navbar: React.FC<NavbarProps> = ({ onOpenDemo, onOpenSignIn, onNavigate }) => {
+  const isScrolled = useScrolled(20);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const navLinks = [
-    { label: 'Features', href: '#features' },
-    { label: 'The 6 Dimensions', href: '#dimensions' },
-    { label: 'Why LetGetIn', href: '#shift' },
-    { label: 'Testimonials', href: '#updates' },
-    { label: 'Blog Matrix', href: '#blog-matrix' },
-    { label: 'Video Hub', href: '#video-showcase' },
-  ];
 
   return (
     <header
@@ -38,8 +25,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDemo, onOpenSignIn }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           
-          {/* Brand Logo - Matching screenshot exactly */}
-          <a href="#" className="flex items-center gap-2.5 group">
+          {/* Brand Logo */}
+          <a
+            href="/"
+            onClick={(e) => {
+              if (onNavigate) {
+                e.preventDefault();
+                onNavigate('/');
+              }
+            }}
+            className="flex items-center gap-2.5 group cursor-pointer"
+          >
             <div className="w-8 h-8 rounded-full bg-[#063970] flex items-center justify-center text-white font-bold text-sm shadow-xs group-hover:bg-brand-600 transition-colors">
               <span className="font-display">L</span>
             </div>
@@ -53,9 +49,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDemo, onOpenSignIn }) => {
             </div>
           </a>
 
-          {/* Desktop Nav Links from screenshot */}
+          {/* Desktop Nav Links */}
           <nav className="hidden lg:flex items-center space-x-8 text-[13.5px] font-medium text-slate-600">
-            {navLinks.map((link) => (
+            {LANDING_NAV_LINKS.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
@@ -66,20 +62,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDemo, onOpenSignIn }) => {
             ))}
           </nav>
 
-          {/* Action CTAs from screenshot */}
+          {/* Action CTAs */}
           <div className="hidden sm:flex items-center space-x-6">
             <button
               onClick={onOpenSignIn}
-              className="text-[13.5px] font-semibold text-[#0a192f] hover:text-brand-600 transition-colors px-2 py-1.5"
+              className="text-[13.5px] font-semibold text-[#0a192f] hover:text-brand-600 transition-colors px-2 py-1.5 cursor-pointer"
             >
               Sign In
             </button>
-            <button
+            <Button
               onClick={onOpenDemo}
-              className="inline-flex items-center justify-center px-6 py-2.5 text-[13.5px] font-bold tracking-tight text-white btn-gradient-blue rounded-full transition-all shadow-xs hover:shadow-blue-glow active:scale-[0.98]"
+              variant="gradient"
+              size="md"
             >
               <span>Get In — Free</span>
-            </button>
+            </Button>
           </div>
 
           {/* Mobile menu trigger */}
@@ -99,7 +96,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDemo, onOpenSignIn }) => {
       {mobileMenuOpen && (
         <div className="lg:hidden border-b border-sky-100 bg-white px-6 pt-4 pb-6 space-y-4 shadow-xl animate-in slide-in-from-top duration-200">
           <nav className="space-y-3">
-            {navLinks.map((link) => (
+            {LANDING_NAV_LINKS.map((link) => (
               <a
                 key={link.label}
                 href={link.href}

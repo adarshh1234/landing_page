@@ -1,77 +1,15 @@
 import React, { useState } from 'react';
 import { ArrowUpRight, Sparkles, BookOpen, Clock } from 'lucide-react';
+import { BLOG_ARTICLES_LIST } from '../constants/landing.constants';
 
 export const BlogMatrix: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState('All');
 
   const categories = ['All', 'Proof of Work', 'Autonomous Bidding', 'Talent Economy', '6 Dimensions'];
 
-  const articles = [
-    {
-      id: 1,
-      title: 'The Death of the Traditional Resume: Why Verified Proof of Work Outperforms CVs by 4x',
-      description: 'An empirical study of 120,000 engineering candidates evaluated across standardized sandboxes versus keyword-driven ATS pipelines.',
-      category: 'Proof of Work',
-      date: 'Sep 4, 2026',
-      readTime: '4 min read',
-      author: 'LetGetIn Research Lab',
-      featured: true,
-      badge: 'FLAGSHIP RESEARCH',
-      imageGradient: 'from-[#063970] via-[#08498f] to-[#0a192f]'
-    },
-    {
-      id: 2,
-      title: 'Reverse Job Bidding: How Domain Experts Earn True Market Value in the 2026 AI Economy',
-      description: 'When companies compete for pre-vetted engineers with transparent salary floors, placement velocity jumps by 300%.',
-      category: 'Autonomous Bidding',
-      date: 'Aug 29, 2026',
-      readTime: '5 min read',
-      author: 'Aiden Vance',
-      featured: false,
-      badge: 'MARKET TRENDS',
-      imageGradient: 'from-[#063970] to-[#0066cc]'
-    },
-    {
-      id: 3,
-      title: 'Demographic Masking & Cognitive Testing: The End of Unconscious Hiring Bias',
-      description: 'How LetGetIn evaluates the 6 Dimensions of Talent without revealing personal identifiers until the final handshake.',
-      category: '6 Dimensions',
-      date: 'Aug 21, 2026',
-      readTime: '6 min read',
-      author: 'Dr. Elena Rostova',
-      featured: false,
-      badge: 'DEI & MERIT',
-      imageGradient: 'from-[#0a192f] to-[#063970]'
-    },
-    {
-      id: 4,
-      title: 'Why AI Agents Get Stuck in Keyword Filters (And How Sandboxed Audits Fix It)',
-      description: 'Keyword-based screening algorithms inadvertently reject 72% of qualified engineers with non-traditional backgrounds.',
-      category: 'Talent Economy',
-      date: 'Aug 14, 2026',
-      readTime: '3 min read',
-      author: 'Tariq Al-Mansoor',
-      featured: false,
-      badge: 'TECH INSIGHT',
-      imageGradient: 'from-[#0066cc] to-[#38bdf8]'
-    },
-    {
-      id: 5,
-      title: 'Building Verifiable Identity: From Project Sandboxes to Cryptographic Proof',
-      description: 'A deep-dive into how LetGetIn verifies GitHub commits, system architecture diagrams, and adaptive test responses.',
-      category: 'Proof of Work',
-      date: 'Aug 06, 2026',
-      readTime: '7 min read',
-      author: 'Engineering Team',
-      featured: false,
-      badge: 'ARCHITECTURE',
-      imageGradient: 'from-[#083361] to-[#061a33]'
-    }
-  ];
-
   const filtered = activeFilter === 'All' 
-    ? articles 
-    : articles.filter(a => a.category === activeFilter);
+    ? BLOG_ARTICLES_LIST 
+    : BLOG_ARTICLES_LIST.filter(a => a.category === activeFilter);
 
   const featuredArticle = filtered.find(a => a.featured) || filtered[0];
   const gridArticles = filtered.filter(a => a.id !== featuredArticle?.id);
@@ -97,8 +35,9 @@ export const BlogMatrix: React.FC = () => {
             {categories.map((cat) => (
               <button
                 key={cat}
+                type="button"
                 onClick={() => setActiveFilter(cat)}
-                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap ${
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
                   activeFilter === cat
                     ? 'bg-[#063970] text-white shadow-xs'
                     : 'bg-white border border-sky-200 text-slate-600 hover:bg-sky-50'

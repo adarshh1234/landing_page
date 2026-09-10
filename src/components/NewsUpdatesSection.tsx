@@ -1,31 +1,8 @@
 import React from 'react';
 import { Star, Sparkles, X } from 'lucide-react';
+import { TESTIMONIALS_DATA } from '../constants/landing.constants';
 
 export const NewsUpdatesSection: React.FC = () => {
-  const testimonials = [
-    {
-      quote: "I got hired in 11 days. The AI interview was actually fun, and I could see exactly where I stood.",
-      author: "Rahul Khanna",
-      role: "Data Scientist · Verified",
-      initials: "RK",
-      rating: 5
-    },
-    {
-      quote: "We reduced our time-to-hire by 60%. The Pathfinder AI delivers candidates that actually match our culture.",
-      author: "Sarah Mitchell",
-      role: "VP Talent · Stripe",
-      initials: "SM",
-      rating: 5
-    },
-    {
-      quote: "The community is incredible. I've found collaborators, mentors, and my current role — all through LetGetIn.",
-      author: "Amara Okafor",
-      role: "Product Designer · Lagos",
-      initials: "AO",
-      rating: 5
-    }
-  ];
-
   return (
     <section id="compare" className="py-20 md:py-28 bg-[#f8fbfe] border-b border-sky-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -137,9 +114,9 @@ export const NewsUpdatesSection: React.FC = () => {
 
           {/* 3 Testimonial Cards from Screenshot 5 */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((t, idx) => (
+            {TESTIMONIALS_DATA.map((t) => (
               <div
-                key={idx}
+                key={t.id}
                 className="bg-white rounded-[1.75rem] border border-[#e2edf8] p-7 sm:p-8 flex flex-col justify-between shadow-2xs hover:border-[#bae6fd] hover:shadow-[0_10px_25px_rgba(2,132,199,0.06)] transition-all"
               >
                 <div>

@@ -1,83 +1,31 @@
 import React from 'react';
-import { 
-  Brain, 
-  ShieldCheck, 
-  Globe, 
-  Handshake, 
-  Trophy, 
-  BarChart2
-} from 'lucide-react';
+import { CORE_FEATURES_LIST } from '../constants/landing.constants';
+import { SectionHeader } from './ui/SectionHeader';
 
 interface CorePlatformOSProps {
   onOpenDemo?: () => void;
 }
 
 export const CorePlatformOS: React.FC<CorePlatformOSProps> = () => {
-  const features = [
-    {
-      id: 1,
-      icon: Brain,
-      title: 'Pathfinder AI',
-      description: 'Matches jobs, people, and learning based on verified skills, not keywords.',
-      tag: 'Fit score + skill gap analysis',
-    },
-    {
-      id: 2,
-      icon: ShieldCheck,
-      title: 'Skill Verification Hub',
-      description: 'AI interviews, project uploads, peer endorsements — proof over claims.',
-      tag: 'Mercor-style live vetting',
-    },
-    {
-      id: 3,
-      icon: Globe,
-      title: 'Authentic Community',
-      description: 'Niche groups, AI-facilitated networking, and local hubs in emerging markets.',
-      tag: '150+ countries',
-    },
-    {
-      id: 4,
-      icon: Handshake,
-      title: 'Agentic Headhunter',
-      description: 'AI-to-AI negotiation for salary, culture fit, and skills — before humans talk.',
-      tag: 'Zero friction hiring',
-    },
-    {
-      id: 5,
-      icon: Trophy,
-      title: 'Gamified Engagement',
-      description: 'Skill challenges, hackathons, and leaderboards that directly improve job prospects.',
-      tag: 'Earn badges + rewards',
-    },
-    {
-      id: 6,
-      icon: BarChart2,
-      title: 'Trust & Analytics',
-      description: 'Dynamic reputation scores, bias detection, and live application insights.',
-      tag: 'See your ranking',
-    },
-  ];
-
   return (
     <section id="features" className="py-20 md:py-28 bg-[#f8fbfe] border-b border-sky-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header from Screenshot 1 */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#f0f8ff] border border-[#dbeafe] text-[#0066cc] text-xs font-semibold uppercase tracking-wider mb-4 shadow-2xs">
-            <span>CORE FEATURES</span>
-          </div>
-          <h2 className="font-display text-3xl sm:text-5xl font-extrabold text-[#061f3d] tracking-[-0.035em] leading-tight mb-4">
-            The <span className="text-gradient-blue">Intelligent</span> Professional OS
-          </h2>
-          <p className="text-base sm:text-lg text-slate-500 leading-relaxed">
-            Everything you need to prove, connect, and get hired — all in one platform.
-          </p>
-        </div>
+        {/* Header */}
+        <SectionHeader
+          badge="CORE FEATURES"
+          title={
+            <>
+              The <span className="text-gradient-blue">Intelligent</span> Professional OS
+            </>
+          }
+          subtitle="Everything you need to prove, connect, and get hired — all in one platform."
+          className="mb-16"
+        />
 
-        {/* 6 Feature Cards from Screenshot 1 */}
+        {/* 6 Feature Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((item) => {
+          {CORE_FEATURES_LIST.map((item) => {
             const Icon = item.icon;
             return (
               <div

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { 
   Play, 
   Pause, 
@@ -6,6 +6,7 @@ import {
   VolumeX, 
   Maximize2
 } from 'lucide-react';
+import { useVideoPlayer } from '../hooks/useVideoPlayer';
 
 interface CinematicVideoShowcaseProps {
   onOpenDemo: () => void;
@@ -13,36 +14,15 @@ interface CinematicVideoShowcaseProps {
 }
 
 export const CinematicVideoShowcase: React.FC<CinematicVideoShowcaseProps> = ({ onOpenDemo, onViewRoles }) => {
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(true);
-  const [progress, setProgress] = useState(30);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  const togglePlay = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
-
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
-
-  const handleTimeUpdate = () => {
-    if (videoRef.current) {
-      const current = videoRef.current.currentTime;
-      const duration = videoRef.current.duration || 1;
-      setProgress((current / duration) * 100);
-    }
-  };
+  const {
+    videoRef,
+    isPlaying,
+    isMuted,
+    progress,
+    togglePlay,
+    toggleMute,
+    handleTimeUpdate
+  } = useVideoPlayer(true, true);
 
   return (
     <section 
@@ -87,8 +67,9 @@ export const CinematicVideoShowcase: React.FC<CinematicVideoShowcaseProps> = ({ 
         </div>
 
         <button
+          type="button"
           onClick={toggleMute}
-          className="p-2.5 sm:p-3 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md border border-white/20 text-white transition-all shadow-md active:scale-95"
+          className="p-2.5 sm:p-3 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md border border-white/20 text-white transition-all shadow-md active:scale-95 cursor-pointer"
           title={isMuted ? 'Unmute' : 'Mute'}
           aria-label="Toggle Mute"
         >
@@ -100,7 +81,7 @@ export const CinematicVideoShowcase: React.FC<CinematicVideoShowcaseProps> = ({ 
       <div className="relative z-20 w-full px-6 sm:px-12 md:px-16 my-auto py-2">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           
-          {/* LEFT METRICS (Stacked exactly like screenshot) */}
+          {/* LEFT METRICS */}
           <div className="lg:col-span-7 flex flex-col space-y-4 sm:space-y-6">
             <div>
               <div className="text-4xl sm:text-6xl md:text-[64px] font-extrabold tracking-tight text-white font-display leading-none">
@@ -180,6 +161,7 @@ export const CinematicVideoShowcase: React.FC<CinematicVideoShowcaseProps> = ({ 
               {/* Bottom Button */}
               <div className="pt-2 flex justify-end">
                 <button
+                  type="button"
                   onClick={onViewRoles || onOpenDemo}
                   className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-white/15 hover:bg-white/25 border border-white/20 backdrop-blur-md transition-all active:scale-95 cursor-pointer"
                 >
@@ -197,8 +179,9 @@ export const CinematicVideoShowcase: React.FC<CinematicVideoShowcaseProps> = ({ 
       <div className="relative z-20 w-full px-6 sm:px-12 md:px-16 pb-8 sm:pb-10 flex items-center justify-between text-xs text-white">
         <div className="flex items-center gap-3">
           <button
+            type="button"
             onClick={togglePlay}
-            className="p-2.5 rounded-full bg-white/15 hover:bg-white/30 backdrop-blur-md transition-all text-white active:scale-95"
+            className="p-2.5 rounded-full bg-white/15 hover:bg-white/30 backdrop-blur-md transition-all text-white active:scale-95 cursor-pointer"
             title={isPlaying ? 'Pause' : 'Play'}
           >
             {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-white" />}
@@ -219,8 +202,9 @@ export const CinematicVideoShowcase: React.FC<CinematicVideoShowcaseProps> = ({ 
         </div>
 
         <button
+          type="button"
           onClick={onOpenDemo}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 backdrop-blur-md font-semibold text-xs transition-all text-white active:scale-95"
+          className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 backdrop-blur-md font-semibold text-xs transition-all text-white active:scale-95 cursor-pointer"
         >
           <Maximize2 className="w-3.5 h-3.5" />
           <span className="hidden sm:inline">Inspect Platform OS</span>

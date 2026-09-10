@@ -13,61 +13,87 @@ const FacebookIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" 
   </svg>
 );
 
+interface FooterLink {
+  label: string;
+  href?: string;
+  onClick?: () => void;
+  target?: string;
+  rel?: string;
+}
+
 interface FooterProps {
   onOpenSignIn?: () => void;
   onOpenSignUp?: () => void;
+  onNavigate?: (path: string) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenSignIn, onOpenSignUp }) => {
-  const footerSections = [
+export const Footer: React.FC<FooterProps> = ({ onOpenSignIn, onOpenSignUp, onNavigate }) => {
+  const footerSections: { title: string; links: FooterLink[] }[] = [
     {
       title: 'PLATFORM',
       links: [
-        { label: 'Sign In', onClick: onOpenSignIn },
-        { label: 'Sign Up (Free)', onClick: onOpenSignUp },
-        { label: 'Features', href: '#features' },
-        { label: 'The 6 Dimensions', href: '#dimensions' },
-        { label: 'Why LetGetIn', href: '#shift' },
-        { label: 'Video Showcase', href: '#video-showcase' },
-        { label: 'Changelog', href: '#updates' },
+        {
+          label: 'Help centre',
+          href: 'https://talent.docs.mercor.com/welcome',
+          target: '_blank',
+          rel: 'noopener noreferrer',
+        },
+        {
+          label: 'Refer & Earn',
+          href: '/refer-and-earn',
+        },
+        {
+          label: 'Why LetGetIn',
+          href: '/why-letgetin',
+        },
+        {
+          label: 'Features',
+          href: '/features',
+        },
+        {
+          label: 'The 6 Dimensions',
+          href: '/the-6-dimensions',
+        },
       ],
     },
     {
-      title: 'FIND WORK',
+      title: 'EXPLORE JOBS',
       links: [
-        { label: 'AI & Engineering', href: '#video-showcase' },
-        { label: 'Product & Design', href: '#video-showcase' },
-        { label: 'Quant & Finance', href: '#video-showcase' },
-        { label: 'Direct Company Bids', href: '#shift' },
-        { label: 'All 8.2k Roles', href: '#video-showcase' },
+        { label: 'AI & Engineering', href: '/jobs/ai-engineering' },
+        { label: 'Finance and Accounting', href: '/jobs/finance-accounting' },
+        { label: 'Health Sector Jobs', href: '/jobs/healthcare' },
+        { label: 'Direct Company Bids', href: '/direct-company-bids' },
+        { label: 'Resources', href: '/resources' },
       ],
     },
     {
-      title: 'EXPLORE',
+      title: 'ENTERPRISE',
       links: [
-        { label: 'The 6 Dimensions', href: '#dimensions' },
-        { label: 'APEX Benchmarks', href: '#features' },
-        { label: 'Live Sandbox Eval', href: '#video-showcase' },
-        { label: 'Blog & Research', href: '#blog-matrix' },
-        { label: 'Community Guilds', href: '#updates' },
+        { label: 'AI Recruitment Suite', href: '/enterprise/ai-recruitment-suite' },
+        { label: 'Enterprise AI', href: '/enterprise/ai' },
+        { label: 'HUREMASO', href: '/enterprise/huremaso' },
+        { label: 'Human Data', href: '/enterprise/human-data' },
+        { label: 'Contact Sales', href: '/enterprise/contact-sales' },
       ],
     },
     {
       title: 'COMPANY',
       links: [
-        { label: 'About', href: '#shift' },
-        { label: 'Careers', href: '#blog-matrix' },
-        { label: 'Research Lab', href: '#blog-matrix' },
-        { label: 'Contact', href: '#' },
+        { label: 'About', href: '/about' },
+        { label: 'Employers', href: '/employers' },
+        { label: 'Careers', href: '/careers' },
+        { label: 'Blog', href: '/blog' },
+        { label: 'Contact', href: '/contact' },
       ],
     },
     {
       title: 'LEGAL',
       links: [
-        { label: 'Privacy', href: '#' },
-        { label: 'Terms', href: '#' },
-        { label: 'Policies', href: '#' },
-        { label: 'GDPR', href: '#' },
+        { label: 'Privacy', href: '/privacy' },
+        { label: 'Terms', href: '/terms' },
+        { label: 'Policies', href: '/policies' },
+        { label: 'Security', href: '/security' },
+        { label: 'Customer Care', href: '/customer-care' },
       ],
     },
   ];
@@ -154,31 +180,48 @@ export const Footer: React.FC<FooterProps> = ({ onOpenSignIn, onOpenSignUp }) =>
           </div>
 
           {/* Links Columns */}
-          {footerSections.map((sec, i) => (
-            <div key={i} className="flex flex-col space-y-3">
+          {footerSections.map((sec) => (
+            <div key={sec.title} className="flex flex-col space-y-3">
               <h5 className="text-xs font-bold uppercase tracking-wider text-sky-300 font-mono">
                 {sec.title}
               </h5>
               <ul className="space-y-2.5 text-xs text-slate-300">
-                {sec.links.map((link, j) => (
-                  <li key={j}>
-                    {link.onClick ? (
-                      <button
-                        onClick={link.onClick}
-                        className="hover:text-white transition-colors duration-150 text-left block py-0.5 text-sky-300 hover:underline cursor-pointer"
-                      >
-                        {link.label}
-                      </button>
-                    ) : (
+                {sec.links.map((link) => {
+                  if (link.onClick) {
+                    return (
+                      <li key={link.label}>
+                        <button
+                          type="button"
+                          onClick={link.onClick}
+                          className="hover:text-white transition-colors duration-150 text-left block py-0.5 text-sky-300 hover:underline cursor-pointer"
+                        >
+                          {link.label}
+                        </button>
+                      </li>
+                    );
+                  }
+
+                  const isInternal = link.href?.startsWith('/');
+
+                  return (
+                    <li key={link.label}>
                       <a
                         href={link.href}
+                        target={link.target}
+                        rel={link.rel}
+                        onClick={(e) => {
+                          if (isInternal && onNavigate) {
+                            e.preventDefault();
+                            onNavigate(link.href!);
+                          }
+                        }}
                         className="hover:text-white transition-colors duration-150 block py-0.5"
                       >
                         {link.label}
                       </a>
-                    )}
-                  </li>
-                ))}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}

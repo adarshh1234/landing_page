@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, ShieldCheck } from 'lucide-react';
+import { Button } from './ui/Button';
 
 interface FinalCTAProps {
   onOpenDemo: () => void;
@@ -32,21 +33,24 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onOpenDemo, onOpenEnterprise
 
         {/* CTA Buttons from PDF Page 6 */}
         <div className="flex flex-wrap items-center justify-center gap-4 mb-10">
-          <button
+          <Button
             onClick={onOpenDemo}
-            className="inline-flex items-center justify-center px-8 py-4 rounded-full text-base font-bold text-[#063970] bg-white hover:bg-sky-50 transition-all shadow-lg hover:shadow-xl active:scale-[0.98] group"
+            variant="white"
+            size="lg"
+            className="group"
           >
             <span>Get In — Free</span>
             <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform text-[#0066cc]" />
-          </button>
+          </Button>
 
-          <button
+          <Button
             onClick={onOpenEnterprise}
-            className="inline-flex items-center justify-center px-7 py-4 rounded-full text-base font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/25 backdrop-blur-md transition-all group"
+            variant="secondary"
+            size="lg"
+            icon={<ShieldCheck className="w-4 h-4 text-sky-200" />}
           >
-            <ShieldCheck className="w-4 h-4 mr-2 text-sky-200" />
             <span>Learn More</span>
-          </button>
+          </Button>
         </div>
 
         {/* Micro-assurances from PDF Page 6 */}

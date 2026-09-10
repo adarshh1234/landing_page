@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Play, Sparkles, Video, CheckCircle2 } from 'lucide-react';
+import { VIDEO_SHOWCASE_LIST } from '../constants/landing.constants';
 
 interface VideoContentSectionProps {
   onOpenVideoDemo: () => void;
@@ -8,40 +9,7 @@ interface VideoContentSectionProps {
 export const VideoContentSection: React.FC<VideoContentSectionProps> = ({ onOpenVideoDemo }) => {
   const [selectedVideo, setSelectedVideo] = useState(0);
 
-  const videoList = [
-    {
-      id: 0,
-      title: 'LetGetIn Platform Tour: How Verified Proof of Work Replaces Resumes',
-      duration: '02:45',
-      category: 'PLATFORM WALKTHROUGH',
-      speaker: 'Alex Rivera, Head of Product',
-      description: 'See the end-to-end flow: from taking an adaptive 10-minute AI skill assessment to receiving pre-negotiated direct company bids.',
-      badge: 'Featured Video',
-      tag: 'Live Demo',
-    },
-    {
-      id: 1,
-      title: 'How Stripe & Global Tech Teams Evaluate LetGetIn Candidates',
-      duration: '03:12',
-      category: 'HIRING PARTNER CASE STUDY',
-      speaker: 'Sarah Mitchell, VP Talent',
-      description: 'Why leading engineering leaders use LetGetIn’s 6 Dimensions to cut interview cycles by 60%.',
-      badge: 'Case Study',
-      tag: 'Enterprise',
-    },
-    {
-      id: 2,
-      title: 'Behind the Benchmark: How We Test Code Architecture in Sandboxes',
-      duration: '04:05',
-      category: 'TECHNICAL DEEP DIVE',
-      speaker: 'Dr. Nathan Reed, Chief Scientist',
-      description: 'An inside look at our sandboxed code execution engine, edge case generator, and demographic masking layer.',
-      badge: 'Engineering',
-      tag: 'Research',
-    }
-  ];
-
-  const currentVideo = videoList[selectedVideo];
+  const currentVideo = VIDEO_SHOWCASE_LIST[selectedVideo] || VIDEO_SHOWCASE_LIST[0];
 
   return (
     <section id="video-showcase" className="py-20 md:py-28 bg-white border-b border-navy-200/60">
@@ -118,8 +86,9 @@ export const VideoContentSection: React.FC<VideoContentSectionProps> = ({ onOpen
                 <span>Interactive sandbox simulation included</span>
               </span>
               <button
+                type="button"
                 onClick={onOpenVideoDemo}
-                className="font-bold text-brand-700 hover:text-navy-900"
+                className="font-bold text-brand-700 hover:text-navy-900 cursor-pointer"
               >
                 Launch Full Video →
               </button>
@@ -132,7 +101,7 @@ export const VideoContentSection: React.FC<VideoContentSectionProps> = ({ onOpen
               SELECT EPISODE / TOUR
             </span>
 
-            {videoList.map((vid) => {
+            {VIDEO_SHOWCASE_LIST.map((vid) => {
               const isSelected = selectedVideo === vid.id;
               return (
                 <div
@@ -167,8 +136,9 @@ export const VideoContentSection: React.FC<VideoContentSectionProps> = ({ onOpen
             <div className="p-5 rounded-2xl bg-brand-50/50 border border-brand-200/80 text-center shadow-2xs mt-auto">
               <p className="text-xs text-navy-700 mb-2 font-medium">Want a tailored walkthrough for your team?</p>
               <button
+                type="button"
                 onClick={onOpenVideoDemo}
-                className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-brand-700 bg-white hover:bg-brand-50 border border-brand-200 transition-colors shadow-2xs"
+                className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-brand-700 bg-white hover:bg-brand-50 border border-brand-200 transition-colors shadow-2xs cursor-pointer"
               >
                 Request Custom Live Demo
               </button>
