@@ -27,16 +27,14 @@ interface FooterProps {
   onNavigate?: (path: string) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenSignIn, onOpenSignUp, onNavigate }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenSignIn: _onOpenSignIn, onOpenSignUp: _onOpenSignUp, onNavigate }) => {
   const footerSections: { title: string; links: FooterLink[] }[] = [
     {
       title: 'PLATFORM',
       links: [
         {
           label: 'Help centre',
-          href: 'https://talent.docs.mercor.com/welcome',
-          target: '_blank',
-          rel: 'noopener noreferrer',
+          href: '/help-centre',
         },
         {
           label: 'Refer & Earn',
@@ -99,12 +97,12 @@ export const Footer: React.FC<FooterProps> = ({ onOpenSignIn, onOpenSignUp, onNa
   ];
 
   const socialLinks = [
-    { label: 'X', href: 'https://x.com/i/flow/login', icon: XIcon },
-    { label: 'Instagram', href: 'https://www.instagram.com/accounts/login/', icon: Instagram },
+    { label: 'X', href: 'https://x.com/letgetin', icon: XIcon },
+    { label: 'Instagram', href: 'https://www.instagram.com/let.getin2000/', icon: Instagram },
     { label: 'Facebook', href: 'https://www.facebook.com/login/', icon: FacebookIcon },
-    { label: 'LinkedIn', href: 'https://www.linkedin.com/login', icon: Linkedin },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/let-getin-62021a436/', icon: Linkedin },
     { label: 'YouTube', href: 'https://www.youtube.com', icon: Youtube },
-    { label: 'GitHub', href: 'https://github.com/login', icon: Github },
+    { label: 'GitHub', href: 'https://github.com/letgetin', icon: Github },
   ];
 
   return (
@@ -137,20 +135,49 @@ export const Footer: React.FC<FooterProps> = ({ onOpenSignIn, onOpenSignUp, onNa
                 <span>Verification Engine: Live (120k+ members)</span>
               </div>
 
-              {/* Quick Sign In / Sign Up CTA Buttons */}
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={onOpenSignIn}
-                  className="px-3.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-semibold text-white transition-all cursor-pointer"
+              {/* App Download Badges */}
+              <div className="flex flex-col sm:flex-row items-start gap-2.5">
+                {/* Apple App Store Badge */}
+                {/* TODO: Replace href with actual App Store URL when available */}
+                <a
+                  href="#app-store"
+                  aria-label="Download LetGetIn on the App Store"
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 transition-all group cursor-pointer"
                 >
-                  Sign In
-                </button>
-                <button
-                  onClick={onOpenSignUp}
-                  className="px-3.5 py-1.5 rounded-lg bg-[#38bdf8] hover:bg-[#0ea5e9] text-xs font-bold text-[#061a33] transition-all shadow-xs cursor-pointer"
+                  {/* Apple icon */}
+                  <svg className="w-5 h-5 text-white shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                  </svg>
+                  <div className="leading-tight">
+                    <p className="text-[9px] font-medium text-white/70 uppercase tracking-wider">Download on the</p>
+                    <p className="text-xs font-bold text-white">App Store</p>
+                  </div>
+                </a>
+
+                {/* Google Play Badge */}
+                {/* TODO: Replace href with actual Google Play URL when available */}
+                <a
+                  href="#google-play"
+                  aria-label="Get LetGetIn on Google Play"
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 transition-all group cursor-pointer"
                 >
-                  Sign Up Free
-                </button>
+                  {/* Google Play icon */}
+                  <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M3.18 23.76a2 2 0 0 1-1.18-1.85V2.09A2 2 0 0 1 3.18.33l11.7 11.72-11.7 11.71Z" fill="#32BBFF"/>
+                    <path d="m14.88 12.05-3-3L3.18.33A2 2 0 0 1 5.42.47l10.93 6.12-1.47 5.46Z" fill="#32BBFF"/>
+                    <path d="M3.18 23.76a2 2 0 0 0 2.24-.13l10.93-6.12-1.47-5.46-3 3L3.18 23.76Z" fill="#32BBFF"/>
+                    <path d="M3.18.33A2 2 0 0 0 2 2.09v19.82a2 2 0 0 0 1.18 1.85l12.03-12.03L3.18.33Z" fill="#2C9FD9"/>
+                    <path d="m16.35 6.59-10.93-6.12a2 2 0 0 0-2.24.14l11.7 11.71 3-3-1.53-.86v2.26Z" fill="#29CC5E"/>
+                    <path d="m5.42 23.67 10.93-6.12 1.47-5.46-3 3-11.64 8.44a2 2 0 0 0 2.24-.86Z" fill="#D93F21"/>
+                    <path d="M22.15 10.73 19.4 9.2l-2.05 2.85 2.05 2.85 2.78-1.55a2 2 0 0 0 0-2.62Z" fill="#FFD500"/>
+                    <path d="m19.4 9.2-3.05-1.74L3.18.33l13.17 11.72 3.05-1.74V9.2Z" fill="#FFAA00"/>
+                    <path d="m3.18 23.76 13.17-11.71 3.05 1.74-1.47.82-1.58.86-10.93 6.12a2 2 0 0 1-2.24-.03Z" fill="#EA4435"/>
+                  </svg>
+                  <div className="leading-tight">
+                    <p className="text-[9px] font-medium text-white/70 uppercase tracking-wider">Get it on</p>
+                    <p className="text-xs font-bold text-white">Google Play</p>
+                  </div>
+                </a>
               </div>
             </div>
 
