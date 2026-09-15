@@ -3,6 +3,7 @@ import { Play, Sparkles, Building2 } from 'lucide-react';
 import { HERO_PROFILES } from '../constants/landing.constants';
 import { Button } from './ui/Button';
 import { Badge } from './ui/Badge';
+import { useCms } from '../context/CmsContext';
 
 interface HeroSectionProps {
   onOpenDemo: () => void;
@@ -10,8 +11,12 @@ interface HeroSectionProps {
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenDemo, onOpenVideoDemo }) => {
+  const { cmsContent } = useCms();
+  const heroCms = cmsContent?.hero;
+  const profiles = heroCms?.profiles && heroCms.profiles.length > 0 ? heroCms.profiles : HERO_PROFILES;
+
   const [activeProfileIndex, setActiveProfileIndex] = useState(0);
-  const activeProfile = HERO_PROFILES[activeProfileIndex] || HERO_PROFILES[0];
+  const activeProfile = profiles[activeProfileIndex] || profiles[0] || HERO_PROFILES[0];
 
   return (
     <section className="relative pt-24 pb-20 md:pt-32 md:pb-28 overflow-hidden screenshot-ambient-glow">
@@ -27,21 +32,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenDemo, onOpenVide
                 variant="pill"
                 icon={<Sparkles className="w-3.5 h-3.5 text-brand-500" />}
               >
-                <span>The future of professional identity</span>
+                <span>{heroCms?.tagBadge || 'The future of professional identity'}</span>
               </Badge>
             </div>
 
             {/* Main Headline */}
             <h1 className="font-display text-4xl sm:text-6xl md:text-[68px] font-extrabold text-[#06284f] tracking-[-0.04em] leading-[1.08] mb-6">
-              Stop Claiming.<br />
-              Start <span className="text-gradient-blue">Proving.</span>
+              {heroCms?.headlineLine1 || 'Stop Claiming.'}<br />
+              Start <span className="text-gradient-blue">{heroCms?.headlineLine2Gradient || 'Proving.'}</span>
             </h1>
 
             {/* Subtitle */}
             <p className="text-lg sm:text-xl text-slate-600 leading-relaxed max-w-xl mb-9 font-normal">
-              The professional network where verified skills, not CVs, get you hired.{' '}
+              {heroCms?.subtitle || 'The professional network where verified skills, not CVs, get you hired.'}{' '}
               <strong className="text-[#0a192f] font-bold">
-                Companies bid for talent — not the other way around.
+                {heroCms?.subtitleHighlight || 'Companies bid for talent — not the other way around.'}
               </strong>
             </p>
 

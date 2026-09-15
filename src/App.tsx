@@ -13,6 +13,7 @@ import { Footer } from './components/Footer';
 import { DemoModal } from './components/DemoModal';
 import { CookieConsent } from './components/CookieConsent';
 import { ToastProvider } from './hooks/useToast';
+import { CmsProvider } from './context/CmsContext';
 import { ViewType } from './types/navigation.types';
 
 // Lazy-load secondary view pages to optimize initial landing page bundle (Rule 12)
@@ -279,62 +280,66 @@ export const App: React.FC = () => {
   // Dedicated Roles View (custom standalone layout)
   if (currentView === 'roles') {
     return (
-      <ToastProvider>
-        <div className="min-h-screen bg-[#f8fafc]">
-          <Suspense fallback={<PageFallbackLoader />}>
-            <ExploreRolesPage 
-              onBackToHome={handleBackToHome}
-              onOpenDemo={handleOpenDemo}
-            />
-          </Suspense>
+      <CmsProvider>
+        <ToastProvider>
+          <div className="min-h-screen bg-[#f8fafc]">
+            <Suspense fallback={<PageFallbackLoader />}>
+              <ExploreRolesPage 
+                onBackToHome={handleBackToHome}
+                onOpenDemo={handleOpenDemo}
+              />
+            </Suspense>
 
+            <DemoModal 
+              isOpen={modalOpen}
+              onClose={() => setModalOpen(false)}
+              mode={modalMode}
+            />
+
+            <CookieConsent onNavigateToCookiePolicy={() => handleNavigate('/cookie-policy')} />
+          </div>
+        </ToastProvider>
+      </CmsProvider>
+    );
+  }
+
+  return (
+    <CmsProvider>
+      <ToastProvider>
+        <div className="min-h-screen bg-[#f8fbfe] text-slate-800 selection:bg-[#0066cc] selection:text-white flex flex-col font-sans">
+          {/* 1. Header / Navigation */}
+          <Navbar 
+            onOpenDemo={handleOpenDemo}
+            onOpenSignIn={handleOpenSignIn}
+            onNavigate={handleNavigate}
+          />
+
+          {/* Main Route Content */}
+          <main className="flex-1">
+            <Suspense fallback={<PageFallbackLoader />}>
+              {renderContent()}
+            </Suspense>
+          </main>
+
+          {/* 11. Footer */}
+          <Footer 
+            onOpenSignIn={handleOpenSignIn}
+            onOpenSignUp={handleOpenDemo}
+            onNavigate={handleNavigate}
+          />
+
+          {/* Interactive Modal Dialog */}
           <DemoModal 
             isOpen={modalOpen}
             onClose={() => setModalOpen(false)}
             mode={modalMode}
           />
 
+          {/* Cookie Consent Banner & Preferences Modal */}
           <CookieConsent onNavigateToCookiePolicy={() => handleNavigate('/cookie-policy')} />
         </div>
       </ToastProvider>
-    );
-  }
-
-  return (
-    <ToastProvider>
-      <div className="min-h-screen bg-[#f8fbfe] text-slate-800 selection:bg-[#0066cc] selection:text-white flex flex-col font-sans">
-        {/* 1. Header / Navigation */}
-        <Navbar 
-          onOpenDemo={handleOpenDemo}
-          onOpenSignIn={handleOpenSignIn}
-          onNavigate={handleNavigate}
-        />
-
-        {/* Main Route Content */}
-        <main className="flex-1">
-          <Suspense fallback={<PageFallbackLoader />}>
-            {renderContent()}
-          </Suspense>
-        </main>
-
-        {/* 11. Footer */}
-        <Footer 
-          onOpenSignIn={handleOpenSignIn}
-          onOpenSignUp={handleOpenDemo}
-          onNavigate={handleNavigate}
-        />
-
-        {/* Interactive Modal Dialog */}
-        <DemoModal 
-          isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
-          mode={modalMode}
-        />
-
-        {/* Cookie Consent Banner & Preferences Modal */}
-        <CookieConsent onNavigateToCookiePolicy={() => handleNavigate('/cookie-policy')} />
-      </div>
-    </ToastProvider>
+    </CmsProvider>
   );
 };
 
